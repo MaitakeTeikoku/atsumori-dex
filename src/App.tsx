@@ -77,7 +77,7 @@ export default function App() {
   const renderTable = () => {
     if (loading) return <Loading fontSize="xl" />;
 
-    const hasFishShadow = activeTab !== "insects";
+    const hasShadow = activeTab !== "insects";
 
     return (
       <NativeTable size="sm">
@@ -86,7 +86,7 @@ export default function App() {
             <Th><CheckIcon fontSize="sm" /></Th>
             <Th>画像</Th>
             <Th>名前</Th>
-            {hasFishShadow && <Th>影</Th>}
+            {hasShadow && <Th>影</Th>}
             <Th>値段</Th>
             <Th>場所</Th>
             <Th>季節</Th>
@@ -106,7 +106,7 @@ export default function App() {
                 <Image boxSize="40px" src={item.画像リンク} alt={item.名前} />
               </Td>
               <Td>{item.名前}</Td>
-              {hasFishShadow && <Td>{"影" in item ? item.影 : "-"}</Td>}
+              {hasShadow && <Td>{"影" in item ? item.影 : "-"}</Td>}
               <Td>{item.値段}</Td>
               <Td>{item.場所}</Td>
               <Td>{isNorth ? item.季節.北半球 : item.季節.南半球}</Td>
@@ -120,13 +120,13 @@ export default function App() {
 
   return (
     <Container centerContent>
-      <HStack justify="space-between" mb="4">
+      <HStack justify="center" align="center" gap={8} mb={4}>
         <HStack>
           <Text fontSize="sm">未チェックのみ</Text>
           <Switch checked={showUncheckedOnly} onChange={(e) => setShowUncheckedOnly(e.target.checked)} />
         </HStack>
 
-        <Separator orientation="vertical" variant="solid" h={10} />
+        <Separator orientation="vertical" variant="solid" h={8} />
 
         <HStack>
           <Text fontSize="sm">南</Text>
