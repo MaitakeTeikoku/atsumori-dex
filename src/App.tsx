@@ -19,7 +19,7 @@ import {
   Loading,
 } from "@yamada-ui/react";
 
-type Type = "insects" | "fish" | "sea";
+type Type = "insects" | "fish" | "sea_creatures";
 
 interface Season {
   北半球: string;
@@ -45,7 +45,7 @@ type Creature = BaseCreature | FishCreature;
 const STORAGE_KEYS: Record<Type, string> = {
   insects: "checked-insects",
   fish: "checked-fish",
-  sea: "checked-sea",
+  sea_creatures: "checked-sea",
 };
 
 export default function App() {
@@ -57,7 +57,7 @@ export default function App() {
 
   useEffect(() => {
     setLoading(true);
-    fetch(`/json/${activeTab}.json`)
+    fetch(`${import.meta.env.BASE_URL}json/${activeTab}.json`)
       .then((res) => res.json())
       .then((json) => setData(json))
       .finally(() => setLoading(false));
@@ -129,8 +129,8 @@ export default function App() {
       <Tabs
         variant="enclosed"
         isFitted
-        index={["insects", "fish", "sea"].indexOf(activeTab)}
-        onChange={(index) => setActiveTab(["insects", "fish", "sea"][index] as Type)}
+        index={["insects", "fish", "sea_creatures"].indexOf(activeTab)}
+        onChange={(index) => setActiveTab(["insects", "fish", "sea_creatures"][index] as Type)}
       >
         <TabList>
           <Tab>ムシ</Tab>
@@ -139,7 +139,7 @@ export default function App() {
         </TabList>
         <TabPanel>{activeTab === "insects" && renderTable()}</TabPanel>
         <TabPanel>{activeTab === "fish" && renderTable()}</TabPanel>
-        <TabPanel>{activeTab === "sea" && renderTable()}</TabPanel>
+        <TabPanel>{activeTab === "sea_creatures" && renderTable()}</TabPanel>
       </Tabs>
     </Box>
   );
