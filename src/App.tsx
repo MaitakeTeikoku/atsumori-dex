@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import {
-  Container, HStack,
+  Box, HStack,
   Text, Switch, Separator,
   Tabs, TabList, Tab, TabPanel,
   NativeTable, Thead, Tbody, Tr, Th, Td,
@@ -36,9 +36,9 @@ interface ShadowCreature extends BaseCreature {
 type Creature = BaseCreature | ShadowCreature;
 
 const STORAGE_KEYS: Record<Type, string> = {
-  insects: "checked-insects",
-  fish: "checked-fish",
-  sea_creatures: "checked-sea",
+  insects: "insects",
+  fish: "fish",
+  sea_creatures: "sea_creatures",
 };
 
 export default function App() {
@@ -116,8 +116,8 @@ export default function App() {
   };
 
   return (
-    <Container centerContent>
-      <HStack justify="space-between" mb={4}>
+    <Box p={2}>
+      <HStack justify="space-around" mb={4}>
         <HStack>
           <Text fontSize="sm">未チェックのみ</Text>
           <Switch checked={showUncheckedOnly} onChange={(e) => setShowUncheckedOnly(e.target.checked)} />
@@ -146,6 +146,6 @@ export default function App() {
         <TabPanel>{activeTab === "fish" && renderTable()}</TabPanel>
         <TabPanel>{activeTab === "sea_creatures" && renderTable()}</TabPanel>
       </Tabs>
-    </Container>
+    </Box>
   );
 }
