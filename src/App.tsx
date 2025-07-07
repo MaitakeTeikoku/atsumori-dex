@@ -126,7 +126,7 @@ export default function App() {
           <Switch checked={showUncheckedOnly} onChange={(e) => setShowUncheckedOnly(e.target.checked)} />
         </HStack>
 
-        <Separator orientation="vertical" variant="solid" h="sm" />
+        <Separator orientation="vertical" variant="solid" fontSize="sm" />
 
         <HStack>
           <Text fontSize="sm">南</Text>
