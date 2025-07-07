@@ -1,13 +1,10 @@
 import { useEffect, useState } from "react";
 import {
   Container, HStack,
-  Text,
-  Switch,
-  Separator,
+  Text, Switch, Separator,
   Tabs, TabList, Tab, TabPanel,
   NativeTable, Thead, Tbody, Tr, Th, Td,
-  Checkbox,
-  Image,
+  Checkbox, Image,
   Loading,
 } from "@yamada-ui/react";
 import {
@@ -120,7 +117,7 @@ export default function App() {
 
   return (
     <Container centerContent>
-      <HStack justify="center" align="center" gap={8} mb={4}>
+      <HStack justify="space-between" mb={4}>
         <HStack>
           <Text fontSize="sm">未チェックのみ</Text>
           <Switch checked={showUncheckedOnly} onChange={(e) => setShowUncheckedOnly(e.target.checked)} />
@@ -136,8 +133,7 @@ export default function App() {
       </HStack>
 
       <Tabs
-        variant="sticky"
-        fitted
+        variant="sticky" fitted
         index={["insects", "fish", "sea_creatures"].indexOf(activeTab)}
         onChange={(index) => setActiveTab(["insects", "fish", "sea_creatures"][index] as Type)}
       >
