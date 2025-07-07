@@ -18,6 +18,9 @@ import {
   Text,
   Loading,
 } from "@yamada-ui/react";
+import {
+  CheckIcon
+} from "@yamada-ui/lucide";
 
 type Type = "insects" | "fish" | "sea_creatures";
 
@@ -29,18 +32,18 @@ interface Season {
 interface BaseCreature {
   ナンバー: string;
   名前: string;
-  画像URL: string;
+  画像リンク: string;
   値段: string;
   場所: string;
   季節: Season;
   時間: string;
 }
 
-interface FishCreature extends BaseCreature {
-  魚影: string;
+interface ShadowCreature extends BaseCreature {
+  影: string;
 }
 
-type Creature = BaseCreature | FishCreature;
+type Creature = BaseCreature | ShadowCreature;
 
 const STORAGE_KEYS: Record<Type, string> = {
   insects: "checked-insects",
@@ -54,6 +57,7 @@ export default function App() {
   const [checked, setChecked] = useState<Set<string>>(new Set());
   const [isNorth, setIsNorth] = useState<boolean>(true);
   const [loading, setLoading] = useState(false);
+  const [showUncheckedOnly, setShowUncheckedOnly] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -73,8 +77,12 @@ export default function App() {
     localStorage.setItem(STORAGE_KEYS[activeTab], JSON.stringify([...newChecked]));
   };
 
+  const filteredData = showUncheckedOnly
+    ? data.filter((item) => !checked.has(item.ナンバー))
+    : data;
+
   const renderTable = () => {
-    if (loading) return <Loading size="xl" />;
+    if (loading) return <Loading fontSize="xl" />;
 
     const hasFishShadow = activeTab !== "insects";
 
@@ -82,30 +90,30 @@ export default function App() {
       <NativeTable size="sm">
         <Thead>
           <Tr>
-            <Th>✔</Th>
+            <Th><CheckIcon fontSize="sm" /></Th>
             <Th>画像</Th>
             <Th>名前</Th>
-            {hasFishShadow && <Th>魚影</Th>}
+            {hasFishShadow && <Th>影</Th>}
             <Th>値段</Th>
             <Th>場所</Th>
-            <Th>{isNorth ? "北" : "南"}</Th>
+            <Th>季節</Th>
             <Th>時間</Th>
           </Tr>
         </Thead>
         <Tbody>
-          {data.map((item) => (
+          {filteredData.map((item) => (
             <Tr key={item.ナンバー}>
               <Td>
                 <Checkbox
-                  isChecked={checked.has(item.ナンバー)}
+                  checked={checked.has(item.ナンバー)}
                   onChange={() => toggleCheck(item.ナンバー)}
                 />
               </Td>
               <Td>
-                <Image boxSize="40px" src={item.画像URL} alt={item.名前} />
+                <Image boxSize="40px" src={item.画像リンク} alt={item.名前} />
               </Td>
               <Td>{item.名前}</Td>
-              {hasFishShadow && <Td>{"魚影" in item ? item.魚影 : "-"}</Td>}
+              {hasFishShadow && <Td>{"影" in item ? item.影 : "-"}</Td>}
               <Td>{item.値段}</Td>
               <Td>{item.場所}</Td>
               <Td>{isNorth ? item.季節.北半球 : item.季節.南半球}</Td>
@@ -119,16 +127,22 @@ export default function App() {
 
   return (
     <Box p="4">
-      {/* 北南切り替え */}
-      <HStack justify="flex-end" mb="4">
-        <Text fontSize="sm">南半球</Text>
-        <Switch isChecked={isNorth} onChange={(e) => setIsNorth(e.target.checked)} />
-        <Text fontSize="sm">北半球</Text>
+      <HStack justify="space-between" mb="4">
+        <HStack>
+          <Text fontSize="sm">南半球</Text>
+          <Switch checked={isNorth} onChange={(e) => setIsNorth(e.target.checked)} />
+          <Text fontSize="sm">北半球</Text>
+        </HStack>
+        <HStack>
+          <Text fontSize="sm">未チェックのみ</Text>
+          <Switch checked={showUncheckedOnly} onChange={(e) => setShowUncheckedOnly(e.target.checked)} />
+        </HStack>
       </HStack>
+
 
       <Tabs
         variant="enclosed"
-        isFitted
+        fitted
         index={["insects", "fish", "sea_creatures"].indexOf(activeTab)}
         onChange={(index) => setActiveTab(["insects", "fish", "sea_creatures"][index] as Type)}
       >
