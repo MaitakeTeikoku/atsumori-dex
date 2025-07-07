@@ -95,7 +95,7 @@
           injectRegister: 'auto',
           manifest: {
             name: 'あつ森いきもの図鑑',
-            short_name: 'あつ森図鑑',
+            short_name: 'あつ森ずかん',
             description: 'あつまれ どうぶつの森 ムシ・サカナ・うみのさち いきもの図鑑',
             theme_color: '#141414',
             icons: [
