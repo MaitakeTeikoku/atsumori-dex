@@ -17,9 +17,13 @@ import {
   HStack,
   Text,
   Loading,
+  Separator,
 } from "@yamada-ui/react";
 import {
-  CheckIcon
+  CheckIcon,
+  BugIcon,
+  FishIcon,
+  ShellIcon,
 } from "@yamada-ui/lucide";
 
 type Type = "insects" | "fish" | "sea_creatures";
@@ -129,16 +133,18 @@ export default function App() {
     <Box p="4">
       <HStack justify="space-between" mb="4">
         <HStack>
+          <Text fontSize="sm">未チェックのみ</Text>
+          <Switch checked={showUncheckedOnly} onChange={(e) => setShowUncheckedOnly(e.target.checked)} />
+        </HStack>
+
+        <Separator orientation="vertical" variant="solid" />
+
+        <HStack>
           <Text fontSize="sm">南半球</Text>
           <Switch checked={isNorth} onChange={(e) => setIsNorth(e.target.checked)} />
           <Text fontSize="sm">北半球</Text>
         </HStack>
-        <HStack>
-          <Text fontSize="sm">未チェックのみ</Text>
-          <Switch checked={showUncheckedOnly} onChange={(e) => setShowUncheckedOnly(e.target.checked)} />
-        </HStack>
       </HStack>
-
 
       <Tabs
         variant="enclosed"
@@ -147,9 +153,18 @@ export default function App() {
         onChange={(index) => setActiveTab(["insects", "fish", "sea_creatures"][index] as Type)}
       >
         <TabList>
-          <Tab>ムシ</Tab>
-          <Tab>サカナ</Tab>
-          <Tab>うみのさち</Tab>
+          <Tab>
+            <BugIcon fontSize="sm" />
+            ムシ
+          </Tab>
+          <Tab>
+            <FishIcon fontSize="sm" />
+            サカナ
+            </Tab>
+          <Tab>
+            <ShellIcon fontSize="sm" />
+            うみのさち
+            </Tab>
         </TabList>
         <TabPanel>{activeTab === "insects" && renderTable()}</TabPanel>
         <TabPanel>{activeTab === "fish" && renderTable()}</TabPanel>
