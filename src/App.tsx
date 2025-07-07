@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import {
-  Box, HStack,
+  Container, HStack,
   Text,
   Switch,
   Separator,
@@ -119,7 +119,7 @@ export default function App() {
   };
 
   return (
-    <Box p="4">
+    <Container centerContent>
       <HStack justify="space-between" mb="4">
         <HStack>
           <Text fontSize="sm">未チェックのみ</Text>
@@ -142,20 +142,14 @@ export default function App() {
         onChange={(index) => setActiveTab(["insects", "fish", "sea_creatures"][index] as Type)}
       >
         <TabList>
-          <Tab>
-            <BugIcon fontSize="xl" />
-          </Tab>
-          <Tab>
-            <FishIcon fontSize="xl" />
-          </Tab>
-          <Tab>
-            <ShellIcon fontSize="xl" />
-          </Tab>
+          <Tab><BugIcon fontSize="xl" /></Tab>
+          <Tab><FishIcon fontSize="xl" /></Tab>
+          <Tab><ShellIcon fontSize="xl" /></Tab>
         </TabList>
         <TabPanel>{activeTab === "insects" && renderTable()}</TabPanel>
         <TabPanel>{activeTab === "fish" && renderTable()}</TabPanel>
         <TabPanel>{activeTab === "sea_creatures" && renderTable()}</TabPanel>
       </Tabs>
-    </Box>
+    </Container>
   );
 }
