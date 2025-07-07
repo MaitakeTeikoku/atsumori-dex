@@ -1,30 +1,19 @@
 import { useEffect, useState } from "react";
 import {
-  Box,
-  VStack,
-  HStack,
-  Checkbox,
+  Box, HStack,
+  Tooltip,
+  Text,
   Switch,
   Separator,
-  Text,
-  Loading,
-  Tabs,
-  TabList,
-  Tab,
-  TabPanel,
-  NativeTable,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
+  Tabs, TabList, Tab, TabPanel,
+  NativeTable, Thead, Tbody, Tr, Th, Td,
+  Checkbox,
   Image,
+  Loading,
 } from "@yamada-ui/react";
 import {
   CheckIcon,
-  BugIcon,
-  FishIcon,
-  ShellIcon,
+  BugIcon, FishIcon, ShellIcon,
 } from "@yamada-ui/lucide";
 
 type Type = "insects" | "fish" | "sea_creatures";
@@ -155,22 +144,19 @@ export default function App() {
       >
         <TabList>
           <Tab>
-            <VStack>
+            <Tooltip label="ムシ">
               <BugIcon fontSize="md" />
-              ムシ
-            </VStack>
+            </Tooltip>
           </Tab>
           <Tab>
-            <VStack>
+            <Tooltip label="サカナ">
               <FishIcon fontSize="md" />
-              サカナ
-            </VStack>
+            </Tooltip>
           </Tab>
           <Tab>
-            <VStack>
+            <Tooltip label="うみのさち">
               <ShellIcon fontSize="md" />
-              うみのさち
-            </VStack>
+            </Tooltip>
           </Tab>
         </TabList>
         <TabPanel>{activeTab === "insects" && renderTable()}</TabPanel>
