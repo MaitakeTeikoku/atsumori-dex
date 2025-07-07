@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import {
   Box, HStack,
-  Tooltip,
   Text,
   Switch,
   Separator,
@@ -137,26 +136,20 @@ export default function App() {
       </HStack>
 
       <Tabs
-        variant="enclosed"
+        variant="sticky"
         fitted
         index={["insects", "fish", "sea_creatures"].indexOf(activeTab)}
         onChange={(index) => setActiveTab(["insects", "fish", "sea_creatures"][index] as Type)}
       >
         <TabList>
           <Tab>
-            <Tooltip label="ムシ">
-              <BugIcon fontSize="md" />
-            </Tooltip>
+            <BugIcon fontSize="xl" />
           </Tab>
           <Tab>
-            <Tooltip label="サカナ">
-              <FishIcon fontSize="md" />
-            </Tooltip>
+            <FishIcon fontSize="xl" />
           </Tab>
           <Tab>
-            <Tooltip label="うみのさち">
-              <ShellIcon fontSize="md" />
-            </Tooltip>
+            <ShellIcon fontSize="xl" />
           </Tab>
         </TabList>
         <TabPanel>{activeTab === "insects" && renderTable()}</TabPanel>
