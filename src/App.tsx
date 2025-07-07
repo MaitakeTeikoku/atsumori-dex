@@ -1,6 +1,13 @@
 import { useEffect, useState } from "react";
 import {
   Box,
+  VStack,
+  HStack,
+  Checkbox,
+  Switch,
+  Separator,
+  Text,
+  Loading,
   Tabs,
   TabList,
   Tab,
@@ -11,14 +18,7 @@ import {
   Tr,
   Th,
   Td,
-  Checkbox,
   Image,
-  Switch,
-  VStack,
-  HStack,
-  Text,
-  Loading,
-  Separator,
 } from "@yamada-ui/react";
 import {
   CheckIcon,
@@ -156,19 +156,19 @@ export default function App() {
         <TabList>
           <Tab>
             <VStack>
-              <BugIcon fontSize="sm" />
+              <BugIcon fontSize="md" />
               ムシ
             </VStack>
           </Tab>
           <Tab>
             <VStack>
-              <FishIcon fontSize="sm" />
+              <FishIcon fontSize="md" />
               サカナ
             </VStack>
           </Tab>
           <Tab>
             <VStack>
-              <ShellIcon fontSize="sm" />
+              <ShellIcon fontSize="md" />
               うみのさち
             </VStack>
           </Tab>
