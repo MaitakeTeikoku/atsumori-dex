@@ -1,6 +1,21 @@
 import { defineConfig } from 'vite'
+import type { Plugin } from 'vite'
 import react from '@vitejs/plugin-react-swc'
 import { VitePWA } from 'vite-plugin-pwa'
+import { getColorModeScript } from '@yamada-ui/react'
+
+function injectScript(): Plugin {
+  return {
+    name: "vite-plugin-inject-scripts",
+    transformIndexHtml(html) {
+      const content = getColorModeScript({
+        initialColorMode: "system",
+      })
+
+      return html.replace("<body>", `<body><script>${content}</script>`)
+    },
+  }
+}
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -41,7 +56,8 @@ export default defineConfig({
           }
         ]
       }
-    })
+    }),
+    injectScript(),
   ],
   server: { host: true },
 })
