@@ -14,6 +14,7 @@ import {
   Checkbox,
   Image,
   Switch,
+  VStack,
   HStack,
   Text,
   Loading,
@@ -154,17 +155,23 @@ export default function App() {
       >
         <TabList>
           <Tab>
-            <BugIcon fontSize="sm" />
-            ムシ
+            <VStack>
+              <BugIcon fontSize="sm" />
+              ムシ
+            </VStack>
           </Tab>
           <Tab>
-            <FishIcon fontSize="sm" />
-            サカナ
-            </Tab>
+            <VStack>
+              <FishIcon fontSize="sm" />
+              サカナ
+            </VStack>
+          </Tab>
           <Tab>
-            <ShellIcon fontSize="sm" />
-            うみのさち
-            </Tab>
+            <VStack>
+              <ShellIcon fontSize="sm" />
+              うみのさち
+            </VStack>
+          </Tab>
         </TabList>
         <TabPanel>{activeTab === "insects" && renderTable()}</TabPanel>
         <TabPanel>{activeTab === "fish" && renderTable()}</TabPanel>
