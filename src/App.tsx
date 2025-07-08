@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import {
   Box, HStack,
-  Text, Switch, Separator,
+  Text, Switch, Select, Option, Separator,
   Tabs, TabList, Tab, TabPanel,
   NativeTable, Thead, Tbody, Tr, Th, Td,
   Checkbox, Image,
@@ -51,6 +51,7 @@ export default function App() {
   const [isNorth, setIsNorth] = useState<boolean>(true);
   const [loading, setLoading] = useState(false);
   const [showUncheckedOnly, setShowUncheckedOnly] = useState(false);
+  const [selectedMonth, setSelectedMonth] = useState<string>("");
 
   const [viewMode, setViewMode] = useState<ViewMode>("checklist");
   const [allData, setAllData] = useState<{ type: Type; item: Creature }[]>([]);
@@ -86,9 +87,62 @@ export default function App() {
     });
   }, []);
 
-  const filteredData = showUncheckedOnly
-    ? data.filter((item) => !checked.has(item.ナンバー))
-    : data;
+  const isMonthInSeason = (seasonStr: string, month: number): boolean => {
+    if (!seasonStr) return false;
+
+    // 「いつでも」や「通年」なら常に true にする
+    if (seasonStr.includes("いつでも") || seasonStr.includes("通年")) {
+      return true;
+    }
+
+    // 範囲（〜）があるかチェック
+    if (seasonStr.includes("〜")) {
+      const parts = seasonStr.split("〜");
+      if (parts.length !== 2) return false;
+
+      const parseMonth = (s: string) => {
+        const m = s.match(/(\d{1,2})月/);
+        return m ? Number(m[1]) : null;
+      };
+
+      const start = parseMonth(parts[0]);
+      const end = parseMonth(parts[1]);
+      if (start === null || end === null) return false;
+
+      if (start <= end) {
+        return month >= start && month <= end;
+      } else {
+        // 年跨ぎ
+        return month >= start || month <= end;
+      }
+    }
+
+    // 範囲じゃなく単一月の可能性（例： '9月'）
+    {
+      const m = seasonStr.match(/(\d{1,2})月/);
+      if (m) {
+        const singleMonth = Number(m[1]);
+        return month === singleMonth;
+      }
+    }
+
+    // ここまででマッチしなければ false
+    return false;
+  };
+
+  const filteredData = data.filter((item) => {
+    // 未チェックのみ
+    if (showUncheckedOnly && checked.has(item.ナンバー)) return false;
+
+    // 月フィルター
+    if (selectedMonth !== "") {
+      const monthNum = Number(selectedMonth);
+      const seasonStr = isNorth ? item.季節.北半球 : item.季節.南半球;
+      if (!isMonthInSeason(seasonStr, monthNum)) return false;
+    }
+
+    return true;
+  });
 
   const renderTable = () => {
     if (loading) return <Loading fontSize="xl" />;
@@ -238,6 +292,23 @@ export default function App() {
             <HStack>
               <Text fontSize="sm">未チェックのみ</Text>
               <Switch checked={showUncheckedOnly} onChange={(e) => setShowUncheckedOnly(e.target.checked)} />
+            </HStack>
+
+            <Separator orientation="vertical" variant="solid" h={8} />
+
+            <HStack>
+              <Text fontSize="sm">月を指定</Text>
+              <Select
+                value={selectedMonth}
+                onChange={(value) => setSelectedMonth(value)}
+              >
+                <Option value="">全て</Option>
+                {[...Array(12)].map((_, i) => (
+                  <Option key={i + 1} value={String(i + 1)}>
+                    {`${i + 1}月`}
+                  </Option>
+                ))}
+              </Select>
             </HStack>
 
             <Separator orientation="vertical" variant="solid" h={8} />
