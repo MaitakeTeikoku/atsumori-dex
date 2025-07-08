@@ -5,6 +5,7 @@ import {
   Tabs, TabList, Tab, TabPanel,
   NativeTable, Thead, Tbody, Tr, Th, Td,
   Checkbox, Image,
+  Popover, PopoverTrigger, PopoverContent, PopoverBody,
   Loading,
 } from "@yamada-ui/react";
 import {
@@ -247,12 +248,20 @@ export default function App() {
               showImageInPriceTable ? (
                 <HStack wrap="wrap">
                   {creatures.map((item) => (
-                    <Image
-                      key={item.ナンバー}
-                      src={item.画像リンク}
-                      boxSize="40px"
-                      alt={item.名前}
-                    />
+                    <Popover key={item.ナンバー} trigger="click" placement="top"  closeOnButton={false}>
+                      <PopoverTrigger>
+                        <Box cursor="pointer">
+                          <Image
+                            src={item.画像リンク}
+                            boxSize="40px"
+                            alt={item.名前}
+                          />
+                        </Box>
+                      </PopoverTrigger>
+                      <PopoverContent>
+                        <PopoverBody>{item.名前}</PopoverBody>
+                      </PopoverContent>
+                    </Popover>
                   ))}
                 </HStack>
               ) : (
