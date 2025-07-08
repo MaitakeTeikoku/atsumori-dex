@@ -328,7 +328,7 @@ export default function App() {
   };
 
   return (
-    <Box>
+    <Box my={2}>
       <Tabs
         variant="sticky" fitted
         index={["checklist", "price"].indexOf(viewMode)}
