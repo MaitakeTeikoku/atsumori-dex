@@ -10,7 +10,6 @@ import App from './App.tsx'
 
 export const config: ThemeConfig = {
   initialColorMode: "light",
-  useSystemColorMode: false,
 }
 const customConfig = extendConfig(config)
 
