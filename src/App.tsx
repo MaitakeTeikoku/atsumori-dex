@@ -7,11 +7,13 @@ import {
   Checkbox, Image,
   Popover, PopoverTrigger, PopoverContent, PopoverBody,
   Loading,
+  useColorMode,
 } from "@yamada-ui/react";
 import {
   CheckIcon,
   BugIcon, FishIcon, ShellIcon,
   TypeIcon, ImageIcon,
+  SunIcon, MoonIcon,
 } from "@yamada-ui/lucide";
 
 type Type = "insects" | "fish" | "sea_creatures";
@@ -46,6 +48,8 @@ const STORAGE_KEYS: Record<Type, string> = {
 };
 
 export default function App() {
+  const { colorMode, changeColorMode } = useColorMode();
+
   const [activeTab, setActiveTab] = useState<Type>(() => {
     const saved = localStorage.getItem("activeTab");
     if (saved === "insects" || saved === "fish" || saved === "sea_creatures") {
@@ -389,13 +393,26 @@ export default function App() {
         </TabPanel>
 
         <TabPanel>
-          <HStack mb={4}>
-            <TypeIcon fontSize="md" />
-            <Switch
-              checked={showImageInPriceTable}
-              onChange={(e) => setShowImageInPriceTable(e.target.checked)}
-            />
-            <ImageIcon fontSize="md" />
+          <HStack justify="space-around" mb={4}>
+            <HStack>
+              <TypeIcon fontSize="md" />
+              <Switch
+                checked={showImageInPriceTable}
+                onChange={(e) => setShowImageInPriceTable(e.target.checked)}
+              />
+              <ImageIcon fontSize="md" />
+            </HStack>
+
+            <Separator orientation="vertical" variant="solid" h={8} />
+            
+            <HStack>
+              <SunIcon fontSize="md" />
+              <Switch
+                checked={colorMode === "dark"}
+                onChange={(e) => changeColorMode(e.target.checked ? "dark" : "light")}
+              />
+              <MoonIcon fontSize="md" />
+            </HStack>
           </HStack>
 
           {renderPriceTable()}
