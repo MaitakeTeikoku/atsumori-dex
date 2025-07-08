@@ -2,21 +2,21 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import {
   UIProvider,
-  //extendConfig,
+  extendConfig,
 } from "@yamada-ui/react"
-//import type { ThemeConfig } from "@yamada-ui/react"
+import type { ThemeConfig } from "@yamada-ui/react"
 import App from './App.tsx'
 
-/*
+
 export const config: ThemeConfig = {
-  initialColorMode: "system",
+  initialColorMode: "light",
 }
 const customConfig = extendConfig(config)
-*/
+
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <UIProvider /*config={customConfig}*/>
+    <UIProvider config={customConfig}>
       <App />
     </UIProvider>
   </StrictMode>,

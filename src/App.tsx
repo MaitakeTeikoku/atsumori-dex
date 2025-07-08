@@ -46,17 +46,60 @@ const STORAGE_KEYS: Record<Type, string> = {
 };
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState<Type>("insects");
+  const [activeTab, setActiveTab] = useState<Type>(() => {
+    const saved = localStorage.getItem("activeTab");
+    if (saved === "insects" || saved === "fish" || saved === "sea_creatures") {
+      return saved;
+    }
+    return "insects"; // デフォルト
+  });
   const [data, setData] = useState<Creature[]>([]);
   const [checked, setChecked] = useState<Set<string>>(new Set());
-  const [isNorth, setIsNorth] = useState<boolean>(true);
+  const [isNorth, setIsNorth] = useState(() => {
+    const saved = localStorage.getItem("isNorth");
+    return saved ? JSON.parse(saved) : true;
+  });
   const [loading, setLoading] = useState(false);
-  const [showUncheckedOnly, setShowUncheckedOnly] = useState(false);
-  const [selectedMonth, setSelectedMonth] = useState<string>("");
+  const [showUncheckedOnly, setShowUncheckedOnly] = useState(() => {
+    const saved = localStorage.getItem("showUncheckedOnly");
+    return saved ? JSON.parse(saved) : false;
+  });
+  const [selectedMonth, setSelectedMonth] = useState(() => {
+    return localStorage.getItem("selectedMonth") || "";
+  });
 
-  const [viewMode, setViewMode] = useState<ViewMode>("checklist");
+  const [viewMode, setViewMode] = useState<ViewMode>(() => {
+    return (localStorage.getItem("viewMode") as ViewMode) || "checklist";
+  });
   const [allData, setAllData] = useState<{ type: Type; item: Creature }[]>([]);
-  const [showImageInPriceTable, setShowImageInPriceTable] = useState(false);
+  const [showImageInPriceTable, setShowImageInPriceTable] = useState(() => {
+    const saved = localStorage.getItem("showImageInPriceTable");
+    return saved ? JSON.parse(saved) : false;
+  });
+
+  useEffect(() => {
+    localStorage.setItem("activeTab", activeTab);
+  }, [activeTab]);
+
+  useEffect(() => {
+    localStorage.setItem("showUncheckedOnly", JSON.stringify(showUncheckedOnly));
+  }, [showUncheckedOnly]);
+
+  useEffect(() => {
+    localStorage.setItem("selectedMonth", selectedMonth);
+  }, [selectedMonth]);
+
+  useEffect(() => {
+    localStorage.setItem("isNorth", JSON.stringify(isNorth));
+  }, [isNorth]);
+
+  useEffect(() => {
+    localStorage.setItem("viewMode", viewMode);
+  }, [viewMode]);
+
+  useEffect(() => {
+    localStorage.setItem("showImageInPriceTable", JSON.stringify(showImageInPriceTable));
+  }, [showImageInPriceTable]);
 
   useEffect(() => {
     setLoading(true);
@@ -248,7 +291,7 @@ export default function App() {
               showImageInPriceTable ? (
                 <HStack wrap="wrap">
                   {creatures.map((item) => (
-                    <Popover key={item.ナンバー} trigger="click" placement="top"  closeOnButton={false}>
+                    <Popover key={item.ナンバー} trigger="click" placement="top" closeOnButton={false}>
                       <PopoverTrigger>
                         <Box cursor="pointer">
                           <Image
